@@ -4,7 +4,7 @@
  * Student need to store:
  * bid points
  * modules taking 
- * Check for time clashes if want to take same module but more than one time slot
+ * Check for time clashes if want to take same module but more than one time slot *TimeSlot has a method to check for time clash between 2 Module*
  */
 
 using System;

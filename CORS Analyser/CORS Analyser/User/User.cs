@@ -16,13 +16,15 @@ namespace CORS_Analyser
         //String userID;
         //String password;
 
-        protected String userID { get; set; }
+        public String userID { get; set; }
         protected string password { get; set; }
+        public String accountType { get; set; }
 
-        public User(String id, String pw)
+        public User(String id, String pw, String type)
         {
             userID = id;
             password = pw;
+            accountType = type;
         }
         /* set using properties
         public String getID()
