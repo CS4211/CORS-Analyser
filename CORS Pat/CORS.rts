@@ -1,0 +1,25 @@
+﻿#import "PAT.Lib.CORS";
+
+#define NoOfStudent 5;
+#define NoOfModule 5;
+#define ModuleRequired 3;
+
+var PointsAvailable[NoOfStudent];
+var ModuleVacancy[NoOfModule];
+var ModuleBids[NoOfStudent][NoOfModule];
+var bidMade[NoOfStudent];
+//One way to evaluate whether a strategy is superior might be: let all student bid and check if one student can get all modules, when all student has bid for at least N times
+channel bid 0;
+
+CORS() = bid?sID.mID.point -> ProcessBid(sID, mID, point);
+Students() = []i:{0..NoOfStudent-1}@ Student(i);
+System() = CORS() ||| Students();
+
+//Student(i) = bid!i.call(moduleSelectedtoBid,i,PointsAvailable[i],ModuleVacancy,ModuleBids).call(newBiddingoint,i,moduleSelectedtoBid(i),PointsAvailable[i],ModuleVacancy,ModuleBids) -> Students();
+Student(i) = bid!i.i.i -> Students();
+
+ProcessBid(sID, mID, point) = processBid {
+	ModuleBids[sID][mID]=point;
+} -> CORS();
+
+#assert System() deadlockfree;
