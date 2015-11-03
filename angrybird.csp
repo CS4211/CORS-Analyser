@@ -1,0 +1,37 @@
+﻿/*
+Simulation B: Lowest bid points used within limited amount of time.
+Check that bidding will stop after a limited amount of time. To limit time, we use bid tickets. For example we have max of 5 bid tickets, means max of 5 bids by anyone, and bidding round ends after the 5 bids
+have been used up
+Student A will always bid first
+Goal of the process is to win with the least amount of point used. Hence each player bid with lowest amount of increment at 1
+var winner ensures that each student cannot bid more than 1 time continuously
+*/
+
+#define A 0;
+#define B 1;
+#define C 2;
+#define D 3;
+#define E 4;
+
+#define numOfStudents 5;
+#define numOfModules 1;
+
+var Student[numOfStudents] = [ 0, 0, 0, 0, 0];
+var lowestBid = 0;
+var winner = -1;
+
+var bidTicket = 3;
+
+BidProcess() = StudentA() [] StudentB() [] StudentC() [] StudentD() [] StudentE();
+
+StudentA() = [Student[0] <= lowestBid && bidTicket >0 && winner != A] abid{Student[0] = lowestBid+1; bidTicket = bidTicket -1; lowestBid = lowestBid +1; winner = A} -> BidProcess();
+StudentB() = [Student[1] < lowestBid && bidTicket >0 && winner != B] bbid{Student[1] = lowestBid+1; bidTicket = bidTicket -1; lowestBid = lowestBid +1; winner = B} -> BidProcess();
+StudentC() = [Student[2] < lowestBid && bidTicket >0 && winner != C] cbid{Student[2] = lowestBid+1; bidTicket = bidTicket -1; lowestBid = lowestBid +1; winner = C} -> BidProcess();
+StudentD() = [Student[3] < lowestBid && bidTicket >0 && winner != D] dbid{Student[3] = lowestBid+1; bidTicket = bidTicket -1; lowestBid = lowestBid +1; winner = D} -> BidProcess();
+StudentE() = [Student[4] < lowestBid && bidTicket >0 && winner != E] ebid{Student[4] = lowestBid+1; bidTicket = bidTicket -1; lowestBid = lowestBid +1; winner = E} -> BidProcess();
+
+#define goal bidTicket <= 0;
+			 
+#assert BidProcess() reaches goal with min(lowestBid);
+
+			 
