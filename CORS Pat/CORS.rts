@@ -8,6 +8,9 @@ var PointsAvailable[NoOfStudent];
 var ModuleVacancy[NoOfModule];
 var ModuleBids[NoOfStudent][NoOfModule];
 var bidMade[NoOfStudent];
+var nextMinimumBid[NoOfModule];
+var noOfBidders[NoOfModule] = [0, 0, 0, 0, 0];
+
 //One way to evaluate whether a strategy is superior might be: let all student bid and check if one student can get all modules, when all student has bid for at least N times
 channel bid 0;
 
@@ -20,6 +23,11 @@ Student(i) = bid!i.i.i -> Students();
 
 ProcessBid(sID, mID, point) = processBid {
 	ModuleBids[sID][mID]=point;
+	noOfBidders[mID] = noOfBidders[mID] + 1;
+} -> GenerateStatBid(sID, mID, point);
+
+GenerateStatBid(sID, mID, point) = generateStatBid {
+nextMinimumBid[mID] = call(calculateMin, noOfBidders[mID], ModuleVacancy[mID], ModuleBids[sID][mID], nextMinimumBid[mID]); 
 } -> CORS();
 
 #assert System() deadlockfree;
